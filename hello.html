@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    .visibleTable {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    .visibleTable th, .visibleTable td {
+        border: 1px solid gray;
+        padding: 5px;
+        text-align: left;
+        vertical-align: middle;
+    }
+    input {
+        max-width: 50px;
+    }
+    .invisibleTable {
+        border: 0px;
+    }
+    .invisibleTable th, .invisibleTable td {
+        border: 0px;
+        padding: 5px;
+        text-align: left;
+        vertical-align: middle;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .newLineElement {
+        flex-basis: 100%;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    body {
+        min-width: 796px;
+        background-color: #1C1C21;
+        color: #FCFDFD;
+        margin: 0px;
+        font-family: monospace;
+        font-size: 12px;
+    }
+    th {
+        font-weight: normal;
+        background-color: #1C1C21;
+    }
+    table {
+        background-color: #2C2C35;
+    }
+    input {
+        background-color: #1C1C21;
+        color: #FCFDFD;
+        border: none;
+        border-radius: 3px;
+        padding: 4px;
+        font-family: monospace;
+    }
+    .card {
+        background-color: #2C2C35;
+        border-radius: 6px;
+        padding: 6px; 
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="newLineElement">
+            <div class="card">
+                <span id="tickerHeader"></span>
+                <button id="refreshButton">Refresh empty boxes</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <span>Revenue</span>
+            <table id="revenueTable" class="visibleTable"></table>
+        </div>
+        <div class="card">
+            <span>Free cash flow</span>
+            <table id="fcfTable" class="visibleTable"></table>
+        </div>
+        <div class="card">
+            <span>Estimates</span>
+            <table id="estTable" class="visibleTable"></table>
+        </div>
+        <div class="card">
+            <span>Other info</span>
+            <table class="invisibleTable">
+                <tbody>
+                    <tr>
+                        <td>Shares</td>
+                        <td><span id="shares"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Net Debt</td>
+                        <td><input id="netDebt"/></td>
+                    </tr>
+                    <tr>
+                        <td>Future FCF Multiple</td>
+                        <td><input id="futureFcfMultiple"/></td>
+                    </tr>
+                    <tr>
+                        <td>Discount</td>
+                        <td><input id="discount"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        
+        <div class="newLineElement">
+            <div class="card">
+                <b><span>Value </span><span id="finalValue"></span></b>
+            </div>
+        </div>
+        <script src="scripts/popup.js"></script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Finchat Ster",
+    "description": "Discounted FCF calculation using Finchat",
+    "version": "1.0",
+    "permissions": ["storage"],
+    "host_permissions": ["https://finchat.io/*"],
+    "action": {
+      "default_popup": "hello.html"
+    },
+    "icons": {
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    },
+    "content_scripts": [
+      {
+        "js": ["scripts/content.js"],
+        "matches": ["https://finchat.io/company/*"]
+      }
+    ]
+  }
