@@ -7,7 +7,7 @@ function extractData(rowRoot) {
     let data = [];
     let sibling = rowRoot.nextSibling;
     while (sibling) {
-        data.push(sibling.firstChild.firstChild.textContent);
+        data.push(sibling.firstChild.textContent);
         sibling = sibling.nextSibling;
     }
     return data;
@@ -22,17 +22,21 @@ function extractFloatData(rowRoot) {
 }
 
 function updateIncomeStatement(data) {
-    const totalRevenuesSpan = Array.from(document.getElementsByTagName('span'))
+    const totalRevenuesDiv = Array.from(document.getElementsByTagName('div'))
         .find(element => element.textContent.trim() === "Total Revenues");
-    if (!totalRevenuesSpan)
+    if (!totalRevenuesDiv)
         return false;
-    const yearsRowRoot = totalRevenuesSpan.closest('table').querySelector('thead').querySelector('tr').querySelector('th');
+    const yearsRowRoot = totalRevenuesDiv.closest('table').querySelector('thead').querySelector('tr').querySelector('th');
     const years = extractData(yearsRowRoot);
+    
     missingRevenuesEstimates = years.filter(x => x.includes('(E)')).length < 3
-    const alreadyMissing = data.incomeStatement?.years?.filter(x => x.includes('(E)'))?.length < 3;
+    
+    const existingYears = data.incomeStatement?.years?.filter(x => x.includes('(E)'))
+    const alreadyMissing = !existingYears || existingYears.length < 3;
+    
     if (missingRevenuesEstimates && !alreadyMissing)
         return true;
-    const trRowRoot = totalRevenuesSpan.closest('td');
+    const trRowRoot = totalRevenuesDiv.closest('td');
     const totalRevenues = extractFloatData(trRowRoot);
     let ok = true;
     if (totalRevenues.some(isNaN))
@@ -45,17 +49,22 @@ function updateIncomeStatement(data) {
 }
 
 function updateCashFlowStatement(data) {
-    const freeCashFlowSpan = Array.from(document.getElementsByTagName('span'))
+    const freeCashFlowDiv = Array.from(document.getElementsByTagName('div'))
         .find(element => element.textContent.trim() === "Free Cash Flow");
-    if (!freeCashFlowSpan)
+    if (!freeCashFlowDiv)
         return false;
-    const yearsRowRoot = freeCashFlowSpan.closest('table').querySelector('thead').querySelector('tr').querySelector('th');
+    const yearsRowRoot = freeCashFlowDiv.closest('table').querySelector('thead').querySelector('tr').querySelector('th');
     const years = extractData(yearsRowRoot);
+
     missingFcfEstimates = years.filter(x => x.includes('(E)')).length < 3
-    const alreadyMissing = data.cashFlowStatement?.years?.filter(x => x.includes('(E)'))?.length < 3;
+    
+    const existingYears = data.cashFlowStatement?.years?.filter(x => x.includes('(E)'))
+    const alreadyMissing = !existingYears || existingYears.length < 3;
+    
     if (missingFcfEstimates && !alreadyMissing)
         return true;
-    const fcfRowRoot = freeCashFlowSpan.closest('td');
+    
+    const fcfRowRoot = freeCashFlowDiv.closest('td');
     const freeCashFlows = extractFloatData(fcfRowRoot);
     let ok = true;
     if (freeCashFlows.some(isNaN))
