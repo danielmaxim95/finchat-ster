@@ -305,7 +305,23 @@ async function updateCalculation() {
 async function loadData() {
     ticker = (await chrome.storage.local.get("ticker"))?.ticker || {};
     tickerData = (await chrome.storage.local.get(ticker))?.[ticker] || {};
-    
+}
+
+async function refreshData() {
+    if (tickerData.estimates) {
+        tickerData.estimates.revenueGrowth[0] = null;
+        tickerData.estimates.revenueGrowth[1] = null;
+        tickerData.estimates.revenueGrowth[2] = null;
+        tickerData.estimates.fcfsMargin[0] = null;
+        tickerData.estimates.fcfsMargin[1] = null;
+        tickerData.estimates.fcfsMargin[2] = null;
+        tickerData.estimates.netDebt = null;
+        tickerData.estimates.futureFcfMultiple = null;
+    }
+    loadData();
+}
+
+async function reloadVisual() {
     const tickerHeaderElement = document.getElementById("tickerHeader");
     tickerHeaderElement.textContent = ticker;
     
@@ -316,8 +332,23 @@ async function loadData() {
     await updateCalculation();
 }
 
-document.addEventListener("DOMContentLoaded", loadData);
-document.getElementById('refreshButton').addEventListener('click', loadData);
+async function load() {
+    await loadData();
+    await reloadVisual();
+}
+
+async function refreshEmpty() {
+    await reloadVisual()
+}
+
+async function refresh() {
+    await refreshData();
+    await reloadVisual();
+}
+
+document.addEventListener("DOMContentLoaded", load);
+document.getElementById('refreshEmptyButton').addEventListener('click', refreshEmpty);
+document.getElementById('refreshButton').addEventListener('click', refresh);
 document.getElementById('netDebt').addEventListener('input', updateCalculation);
 document.getElementById('futureFcfMultiple').addEventListener('input', updateCalculation);
 document.getElementById('discount').addEventListener('input', updateCalculation);
