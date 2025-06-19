@@ -4,7 +4,7 @@
     "description": "Discounted FCF calculation using Finchat",
     "version": "1.0",
     "permissions": ["storage"],
-    "host_permissions": ["https://finchat.io/*"],
+    "host_permissions": ["https://fiscal.ai/*"],
     "action": {
       "default_popup": "hello.html"
     },
@@ -17,7 +17,7 @@
     "content_scripts": [
       {
         "js": ["scripts/content.js"],
-        "matches": ["https://finchat.io/company/*"]
+        "matches": ["https://fiscal.ai/company/*"]
       }
     ]
   }

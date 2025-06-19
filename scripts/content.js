@@ -142,7 +142,7 @@ async function setupObserver() {
       if (currentUrl !== lastUrl || !successful || missingRevenuesEstimates || missingFcfEstimates) {
         successful = false;
         lastUrl = currentUrl;
-        successful = await checkAndSaveTickerData();;
+        successful = await checkAndSaveTickerData();
       }
     }).observe(document, { subtree: true, childList: true });
     
